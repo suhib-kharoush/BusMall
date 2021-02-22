@@ -1,16 +1,11 @@
-'use strict';
 
+'use strict';
 
 
 
 let leftImgElement = document.getElementById("leftImg");
 let centerImgElement = document.getElementById("centerImg");
 let rightImgElement = document.getElementById("righttImg");
-
-let leftImgElement = document.getElementById("leftImg")
-let centerImgElement = document.getElementById("centerImg")
-let rightImgElement = document.getElementById("righttImg")
-
 
 let leftImageIndex;
 let centerImageIndex;
@@ -20,34 +15,24 @@ let rightImageIndex;
 let maxAttempts = 25;
 let userAttempts = 0;
 
-
 let productsNames = [];
 let userVotes = [];
 let productViews = [];
-
 
 function OurProducts(name, imgSource) {
     this.name = name;
     this.imgSource = imgSource;
     this.views = 0;
     this.votes = 0;
-
     OurProducts.all.push(this);
     productsNames.push(name);
-
-    OurProducts.all.push(this)
-
 }
 
 OurProducts.all = []
 
 new OurProducts('bag', 'bag.jpg');
 new OurProducts('banana', 'banana.jpg');
-
 new OurProducts('usb', 'usb.gif');
-
-new OurProducts('bag', 'bag.jpg');
-
 new OurProducts('bathroom', 'bathroom.jpg');
 new OurProducts('boots', 'boots.jpg');
 new OurProducts('breakfast', 'breakfast.jpg');
@@ -61,21 +46,13 @@ new OurProducts('sweep', 'sweep.png');
 new OurProducts('scissors', 'scissors.jpg');
 new OurProducts('shark', 'shark.jpg');
 new OurProducts('tauntaun', 'tauntaun.jpg');
-
 new OurProducts('water-can', 'water-can.jpg');
 new OurProducts('wine-glass', 'wine-glass.jpg');
 new OurProducts('unicorn', 'unicorn.jpg');
 
-new OurProducts('banana', 'banana.jpg');
-new OurProducts('water-can', 'water-can.jpg');
-new OurProducts('wine-glass', 'wine-glass.jpg');
-
-
-
 function generateRandomIndex() {
     return Math.floor(Math.random() * OurProducts.all.length);
 }
-
 function checkDublicate(arr1, arr2) {
     
     for (let i = 0; i < arr1.length; i++) {
@@ -131,26 +108,6 @@ function renderThreeImages() {
     centerImgElement.src = OurProducts.all[centerImageIndex].imgSource;
     rightImgElement.src = OurProducts.all[rightImageIndex].imgSource;
     console.log(leftImgElement);
-
-
-function renderThreeImages() {
-     leftImageIndex = generateRandomIndex()
-     centerImageIndex = generateRandomIndex()
-     rightImageIndex = generateRandomIndex()
-    
-    do {
-        leftImageIndex = generateRandomIndex()
-        // console.log(leftImgElement)
-    } while (leftImgElement === rightImgElement || leftImgElement === centerImgElement || rightImgElement === centerImgElement)
-
-    console.log(OurProducts.all[0].imgSource)
-    leftImgElement.src = OurProducts.all[leftImageIndex].imgSource;
-    centerImgElement.src = OurProducts.all[centerImageIndex].imgSource;
-    rightImgElement.src = OurProducts.all[rightImageIndex].imgSource;
-    console.log(leftImgElement)
-
-
-
 }
 
 renderThreeImages();
@@ -165,9 +122,6 @@ function handleUserClick(event) {
     userAttempts++;
 
     if (userAttempts <= maxAttempts) {
-
-    if (userAttempts < maxAttempts) {
-
 
         if (event.target.id === 'leftImg' || event.target.id === 'centerImg' || event.target.id === 'righttImg') {
             OurProducts.all[leftImageIndex].views++
@@ -191,18 +145,11 @@ function handleUserClick(event) {
             OurProducts.all[centerImageIndex].votes++
         }
 
-
         renderThreeImages();
 
     }
      else {
         viewChart();
-
-        renderThreeImages();
-    }
-    else {
-
-
 
 
     }
@@ -218,7 +165,6 @@ function userClick(event) {
         let li = document.createElement('li');
 
         ul.appendChild(li);
-
         li.textContent = OurProducts.all[i].name + ' has views ' + OurProducts.all[i].views + ' has votes ' + OurProducts.all[i].votes
     }
     display.removeEventListener('click', userClick);
@@ -260,16 +206,5 @@ function viewChart() {
         options: {}
     });
 
-}
-
-
-
-
-
-
-
-        li.textContent = OurProducts.all[i].name + ' has views ' + OurProducts.all[i].views + ' has votes ' +  OurProducts.all[i].votes
-    }
-    display.removeEventListener('click', userClick)
 }
 
