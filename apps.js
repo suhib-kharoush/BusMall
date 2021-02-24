@@ -1,4 +1,3 @@
-
 'use strict';
 
 
@@ -28,33 +27,34 @@ function OurProducts(name, imgSource) {
     productsNames.push(name);
 }
 
+
 OurProducts.all = []
 
-new OurProducts('bag', 'bag.jpg');
-new OurProducts('banana', 'banana.jpg');
-new OurProducts('usb', 'usb.gif');
-new OurProducts('bathroom', 'bathroom.jpg');
-new OurProducts('boots', 'boots.jpg');
-new OurProducts('breakfast', 'breakfast.jpg');
-new OurProducts('bubblegum', 'bubblegum.jpg');
-new OurProducts('chair', 'chair.jpg');
-new OurProducts('cthulhu', 'cthulhu.jpg');
-new OurProducts('dragon', 'dragon.jpg');
-new OurProducts('pen', 'pen.jpg');
-new OurProducts('pet-sweep', 'pet-sweep.jpg');
-new OurProducts('sweep', 'sweep.png');
-new OurProducts('scissors', 'scissors.jpg');
-new OurProducts('shark', 'shark.jpg');
-new OurProducts('tauntaun', 'tauntaun.jpg');
-new OurProducts('water-can', 'water-can.jpg');
-new OurProducts('wine-glass', 'wine-glass.jpg');
-new OurProducts('unicorn', 'unicorn.jpg');
+new OurProducts('bag', 'images/bag.jpg');
+new OurProducts('banana', 'images/banana.jpg');
+new OurProducts('usb', 'images/usb.gif');
+new OurProducts('bathroom', 'images/bathroom.jpg');
+new OurProducts('boots', 'images/boots.jpg');
+new OurProducts('breakfast', 'images/breakfast.jpg');
+new OurProducts('bubblegum', 'images/bubblegum.jpg');
+new OurProducts('chair', 'images/chair.jpg');
+new OurProducts('cthulhu', 'images/cthulhu.jpg');
+new OurProducts('dragon', 'images/dragon.jpg');
+new OurProducts('pen', 'images/pen.jpg');
+new OurProducts('pet-sweep', 'images/pet-sweep.jpg');
+new OurProducts('sweep', 'images/sweep.png');
+new OurProducts('scissors', 'images/scissors.jpg');
+new OurProducts('shark', 'images/shark.jpg');
+new OurProducts('tauntaun', 'images/tauntaun.jpg');
+new OurProducts('water-can', 'images/water-can.jpg');
+new OurProducts('wine-glass', 'images/wine-glass.jpg');
+new OurProducts('unicorn', 'images/unicorn.jpg');
 
 function generateRandomIndex() {
     return Math.floor(Math.random() * OurProducts.all.length);
 }
 function checkDublicate(arr1, arr2) {
-    
+
     for (let i = 0; i < arr1.length; i++) {
         for (let j = 0; j < arr2.length; j++) {
             if (arr1[i] === arr2[j]) {
@@ -98,11 +98,11 @@ function renderThreeImages() {
         // console.log(leftImgElement)
     } while (checkDublicate(existingArray, newArray))
 
-   
+
     leftImageIndex = newArray[0];
     centerImageIndex = newArray[1];
     rightImageIndex = newArray[2];
-  
+
     console.log(OurProducts.all[0].imgSource);
     leftImgElement.src = OurProducts.all[leftImageIndex].imgSource;
     centerImgElement.src = OurProducts.all[centerImageIndex].imgSource;
@@ -111,6 +111,7 @@ function renderThreeImages() {
 }
 
 renderThreeImages();
+
 
 leftImgElement.addEventListener('click', handleUserClick);
 centerImgElement.addEventListener('click', handleUserClick);
@@ -127,7 +128,7 @@ function handleUserClick(event) {
             OurProducts.all[leftImageIndex].views++
             OurProducts.all[centerImageIndex].views++
             OurProducts.all[rightImageIndex].views++
-            display.removeEventListener('click', handleUserClick)
+            
 
             // renderThreeImages();
         }
@@ -144,14 +145,19 @@ function handleUserClick(event) {
             // OurProducts.all[centerImageIndex].
             OurProducts.all[centerImageIndex].votes++
         }
-
         renderThreeImages();
 
     }
-     else {
+    else {
+        display.removeEventListener('click', handleUserClick)
+        console.log(OurProducts.all.length)
+        for (let i = 0; i < OurProducts.all.length; i++) {
+            userVotes.push(OurProducts.all[i].votes);
+            productViews.push(OurProducts.all[i].views);
+        }
         viewChart();
-
-
+        settingItems();
+        
     }
 
 }
@@ -165,21 +171,14 @@ function userClick(event) {
         let li = document.createElement('li');
 
         ul.appendChild(li);
-        li.textContent = OurProducts.all[i].name + ' has views ' + OurProducts.all[i].views + ' has votes ' + OurProducts.all[i].votes
+        li.textContent = OurProducts.all[i].name + ' has views ' + OurProducts.all[i].views + ' has votes ' + OurProducts.all[i].votes;
     }
     display.removeEventListener('click', userClick);
     viewChart();
 }
 
-
-
 function viewChart() {
-    for (let i = 0; i < OurProducts.all.length; i++) {
-        for (let i = 0; i < OurProducts.all.length; i++) {
-            userVotes.push(OurProducts.all[i].votes);
-            productViews.push(OurProducts.all[i].views);
-        }
-    }
+    
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -206,5 +205,40 @@ function viewChart() {
         options: {}
     });
 
+}
+
+
+
+let array4;
+
+function settingItems() {
+    array4= {first: userVotes, second: productViews};
+    console.log(array4);
+    if (JSON.parse(localStorage.getItem('OurProducts')) !== null) {
+        gettingItems();
+        for(let i = 0 ; i < OurProducts.all.length ; i++){
+            array4.first[i] += OurProducts.all[i].votes;
+            array4.second[i] += OurProducts.all[i].views;
+
+        }
+    }
+    let data = JSON.stringify(array4);
+    console.log(data);
+    localStorage.setItem('OurProducts', data);
+    userVotes = array4.first;
+    productViews = array4.second;
+
+}
+
+function gettingItems() {
+
+    let stringObject = localStorage.getItem('OurProducts');
+
+    let normalObject = JSON.parse(stringObject);
+    if (normalObject !== null) {
+        array4 = normalObject;
+
+
+    }
 }
 
